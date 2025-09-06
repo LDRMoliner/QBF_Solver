@@ -4,6 +4,7 @@ import bica_solver
 import sys
 import os
 import getopt
+import time
 
 def uso():
     """
@@ -18,10 +19,19 @@ def uso():
 
 if __name__ == "__main__":
 
+    """
+    Punto de entrada del script.
+    Permite seleccionar entre el razonador BICA o el Naíf para resolver una QBF.
+    """
+    if len(sys.argv) < 2:
+        uso()
+        sys.exit(1)
+
     bica = True
     naif = False
+    verbose = False
     try:
-        opciones, nombre_fichero = getopt.getopt(sys.argv[1:], "hbn", ['help', 'bica', 'naive'])
+        opciones, nombre_fichero = getopt.getopt(sys.argv[1:], "hbnv", ['help', 'bica', 'naive', 'verbose'])
     except getopt.GetoptError as e:
         uso()
         sys.exit()
@@ -33,14 +43,29 @@ if __name__ == "__main__":
             bica = True
         elif opcion in ("-n", "--naive"):
             naif = True
+            bica = False
+        elif opcion in ("-v", "--verbose"):
+            verbose = True
 
 
-    # En función de la flag, "-bica" o "-naive", se elige el solver
+    # En función de la flag, "--bica" o "--naive", se elige el solver
 
     qbf = file_parser.QBF(nombre_fichero[0])
     if bica:
-        print("Usando el Razonador BICA para resolver la QBF.")
-        print(bica_solver.BicaSolver(qbf).solve())
+        instancia = bica_solver.BicaSolver(qbf)
+        start_time = time.time()
+        resultado = instancia.solve()
+        end_time = time.time()
+        if not verbose:
+            print(resultado)
+        if verbose:
+            print("{},{},{}".format(os.path.basename(sys.argv[3]),end_time - start_time, resultado))
     if naif:
-        print("Usando el Razonador Naíf para resolver la QBF.")
-        print(naive_solver.NaiveSolver(qbf).solve())
+        instancia = naive_solver.NaiveSolver(qbf)
+        start_time = time.time()
+        resultado = instancia.solve()
+        end_time = time.time()
+        if not verbose:
+            print(resultado)
+        if verbose:
+            print("{},{},{}".format(os.path.basename(sys.argv[3]),end_time - start_time, resultado))
