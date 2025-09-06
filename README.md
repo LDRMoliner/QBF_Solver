@@ -22,7 +22,7 @@ To get a local copy up and running follow these simple example steps.
 ***
 ### Prerequisitos
 
-Se necesita instalar la herramienta PySAT en el caso de no disponer de ella. En el sigueinte [enlace]([click here](https://github.com/pysathq/pysat)) se encuentra el repositorio que contiene la última versión lanzada.  
+Se necesita instalar la herramienta PySAT en el caso de no disponer de ella. En el siguiente [enlace](https://github.com/pysathq/pysat) se encuentra el repositorio que contiene la última versión lanzada.  
 
 ### Instalación
 
